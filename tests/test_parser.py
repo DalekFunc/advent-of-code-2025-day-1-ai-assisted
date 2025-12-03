@@ -4,6 +4,7 @@ from parser import (
     parse_instruction,
     process_file,
     process_instructions,
+    process_instructions_with_delta,
 )
 
 
@@ -34,3 +35,11 @@ def test_parse_and_reduce_directly():
     position, count = process_instructions(moves)
     assert position == (START_POSITION - 1 + 2 - 2 + 1) % CYCLE
     assert count == 0
+
+
+def test_alternative_step_counts_delta_cycles():
+    moves = [parse_instruction(token) for token in ["R50", "R200", "R150", "R100"]]
+    position, count = process_instructions_with_delta(moves)
+
+    assert position == 50
+    assert count == 6
